@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger'; 
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 
 class BurgerBuilder extends Component{
@@ -38,7 +40,8 @@ class BurgerBuilder extends Component{
             
         },
         totalPrice:2, //breadBase price
-        purchaseable: false
+        purchaseable: false,
+        showModal:false
     }
 
     updatePurchaseable=(ingredients)=>{
@@ -101,24 +104,46 @@ class BurgerBuilder extends Component{
         }
     };
 
+    showModalHandler=()=>{
+        this.setState({showModal:true});
+        console.log(this.state);
+    };
+
 
     render(){
         const disabledInfo={...this.state.ingredients};
-        //tranform ingredients obj to disaabledInfo obj
-        for (let key in disabledInfo){
+        
+        //tranform ingredients obj to disabledInfo obj
+        let key;
+        for (key in disabledInfo){
             disabledInfo[key]= disabledInfo[key] <= 0;
         };
 
-        
+        //let orderSummary=null;
+
+        // if(this.state.showModal){
+        //     orderSummary=(
+        //         <Modal>
+        //             <OrderSummary ingredients={this.state.ingredients} />
+        //         </Modal>
+        //     )
+        // }
+
         return(
             <Aux>
+                <Modal show={this.state.showModal} >
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
+
                 <Burger ingredients={this.state.ingredients} />
+
                 <BuildControls 
                 addIngrHandler={this.addIngrHandler}
                 removeIngrHandler={this.removeIngrHandler}
                 disabledInfo={disabledInfo}
                 price={this.state.totalPrice}
-                purchaseable={this.state.purchaseable} />
+                purchaseable={this.state.purchaseable}
+                showModal={this.showModalHandler} />
 
             </Aux>
         )
