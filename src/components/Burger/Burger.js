@@ -16,7 +16,7 @@ const Burger= props=>{
     //console.log(arrOfIngredComponents);
 
     if(arrOfIngredComponents.length===0){
-        message=<p>Please add some ingredients to your burger! </p>
+        message=<p>Please start adding ingredients ! </p>
     }
 
     // const NumIngred=Object.values(props.ingredients).reduce((prev,curr)=>prev+curr);
@@ -30,9 +30,10 @@ const Burger= props=>{
 
             <BurgerIngredient type={'bread-top'} />
             {arrOfIngredComponents}
+            {message}
             <BurgerIngredient type={'bread-bottom'} />
 
-            {message}
+            
 
         </div>
     )
