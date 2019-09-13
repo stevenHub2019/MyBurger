@@ -79,7 +79,7 @@ class BurgerBuilder extends Component{
         //update purchaseable
         this.updatePurchaseable(updatedIngredients);
         
-    };
+    }
 
     //class method remove
     removeIngrHandler=(type)=>{
@@ -102,12 +102,16 @@ class BurgerBuilder extends Component{
             //update purchaseable
             this.updatePurchaseable(updatedIngredients);
         }
-    };
+    }
 
     showModalHandler=()=>{
         this.setState({showModal:true});
-        console.log(this.state);
-    };
+    }
+
+    closeModalHandler=()=>{
+        this.setState({showModal:false});
+        console.log(this.state.showModal);
+    }
 
 
     render(){
@@ -131,7 +135,7 @@ class BurgerBuilder extends Component{
 
         return(
             <Aux>
-                <Modal show={this.state.showModal} >
+                <Modal show={this.state.showModal} closeModalHandler={this.closeModalHandler} >
                     <OrderSummary ingredients={this.state.ingredients} />
                 </Modal>
 
