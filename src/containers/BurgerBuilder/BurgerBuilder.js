@@ -41,7 +41,7 @@ class BurgerBuilder extends Component{
         },
         totalPrice:2, //breadBase price
         purchaseable: false,
-        showModal:false
+        purchasing:false
     }
 
     updatePurchaseable=(ingredients)=>{
@@ -104,13 +104,16 @@ class BurgerBuilder extends Component{
         }
     }
 
-    showModalHandler=()=>{
-        this.setState({showModal:true});
+    purchasingHandler=()=>{
+        this.setState({purchasing:true});
     }
 
-    closeModalHandler=()=>{
-        this.setState({showModal:false});
-        console.log(this.state.showModal);
+    cancelPurchaseHandler=()=>{
+        this.setState({purchasing:false});
+    }
+
+    continuePurchaseHandler=()=>{
+        alert('Continue to purchase');
     }
 
 
@@ -125,7 +128,7 @@ class BurgerBuilder extends Component{
 
         //let orderSummary=null;
 
-        // if(this.state.showModal){
+        // if(this.state.purchasing){
         //     orderSummary=(
         //         <Modal>
         //             <OrderSummary ingredients={this.state.ingredients} />
@@ -135,8 +138,13 @@ class BurgerBuilder extends Component{
 
         return(
             <Aux>
-                <Modal show={this.state.showModal} closeModalHandler={this.closeModalHandler} >
-                    <OrderSummary ingredients={this.state.ingredients} />
+                <Modal show={this.state.purchasing} 
+                closeModalHandler={this.cancelPurchaseHandler} >
+                    <OrderSummary 
+                    ingredients={this.state.ingredients}
+                    cancelPurchase={this.cancelPurchaseHandler}
+                    continuePurchase={this.continuePurchaseHandler}
+                    />
                 </Modal>
 
                 <Burger ingredients={this.state.ingredients} />
@@ -147,7 +155,7 @@ class BurgerBuilder extends Component{
                 disabledInfo={disabledInfo}
                 price={this.state.totalPrice}
                 purchaseable={this.state.purchaseable}
-                showModal={this.showModalHandler} />
+                showModal={this.purchasingHandler} />
 
             </Aux>
         )
