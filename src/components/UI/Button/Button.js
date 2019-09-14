@@ -5,7 +5,7 @@ import classes from './Button.module.css';
 // always access the class name via the imported object from module.css 
 
 const Button = (props) => {
-    console.log([classes.Button, classes[props.btnType]].join(' '));
+    
     return (
         <button 
         className={[classes.Button, classes[props.btnType]].join(' ')}

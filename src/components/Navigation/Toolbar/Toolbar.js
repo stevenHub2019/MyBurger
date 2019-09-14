@@ -7,9 +7,9 @@ const Toolbar = (props) => {
     return (
         <header className={classes.Toolbar}>
             <div>HOME</div>
-            
-            <Logo height='80%'/>   
-           
+            <div className={classes.Logo}>
+                <Logo height/>   
+            </div>
             
             <nav>
                 <NavigationItems/>
