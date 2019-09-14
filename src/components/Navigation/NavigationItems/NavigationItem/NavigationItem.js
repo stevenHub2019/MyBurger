@@ -1,5 +1,5 @@
-import React from 'react'
-import classes from './NavigationItem.module.css'
+import React from 'react';
+import classes from './NavigationItem.module.css';
 
 const NavigationItem = (props) => {
     return (
@@ -10,4 +10,4 @@ const NavigationItem = (props) => {
     )
 }
 
-export default NavigationItem
+export default NavigationItem;
