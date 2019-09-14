@@ -9,7 +9,7 @@ const backdrop = (props) => {
     //const backdrop=<div className={classes.Backdrop} onClick={props.closeModal}></div>
     // return {backdrop}  failed!!!! should return JSX not an OBJECT : use return backdrop instead will work
 
-    return props.show? <div className={classes.Backdrop} onClick={props.closeModal}></div> : null ;
+    return props.show? <div className={classes.Backdrop} onClick={props.clicked}></div> : null ;
     
 }
 
