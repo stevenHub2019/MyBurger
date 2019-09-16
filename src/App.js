@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 
@@ -11,8 +11,11 @@ function App() {
     console.log(myState.show);
   };
 
-  //setTimeout(()=>{show=false},10000);
-  
+  // useEffect(()=>{
+  //   setTimeout(()=>{changeState({show:false})},5000);
+  // });
+    
+  setTimeout(()=>{changeState({show:false})},5000);
 
   return (
     <div onClick={showOff}>
