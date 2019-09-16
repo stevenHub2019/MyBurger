@@ -20,10 +20,7 @@ const withErrorHandler = (WrapperComponent,axios) => {
                 })
         }
 
-        componentWillUnmount(){
-            //test
-            console.log('will unmount',this.resInterceptor,this.reqInterceptor)
-            
+        componentWillUnmount(){    
             axios.interceptors.request.eject(this.reqInterceptor);
             axios.interceptors.response.eject(this.resInterceptor);
 

@@ -144,14 +144,14 @@ class BurgerBuilder extends Component{
                     loading:false,
                     purchasing:false
                 });
-                //console.log(response);
+                
             }
         ).catch(error=>{
             this.setState({
                 loading:false,
                 purchasing:false
             });
-            //console.log(error)
+            
         });
     }
 
