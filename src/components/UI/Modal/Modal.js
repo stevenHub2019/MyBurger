@@ -6,8 +6,7 @@ const Modal = (props) => {
     return (
         <Fragment>
             <Backdrop show={props.show} clicked={props.closeModalHandler}/>
-            <div 
-                className={classes.Modal}
+            <div className={classes.Modal}
                 style={
                     {
                         transform:props.show?'translateY(0)' : 'translateY(-100vh)',
@@ -16,6 +15,7 @@ const Modal = (props) => {
                 }
             >
                 {props.children}
+
             </div>
 
         </Fragment>
