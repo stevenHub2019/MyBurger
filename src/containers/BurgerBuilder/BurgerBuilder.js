@@ -39,7 +39,8 @@ class BurgerBuilder extends Component{
         totalPrice:2, //breadBase price
         purchaseable: false,
         purchasing:false,
-        loading:false
+        loading:false,
+        error:null
     }
 
     componentDidMount(){
@@ -47,7 +48,9 @@ class BurgerBuilder extends Component{
             response=>{
                 this.setState({ingredients:response.data})
             }
-        );
+        ).catch(error=>{
+            this.setState({error:error})
+        });
     }
 
     updatePurchaseable=(ingredients)=>{
@@ -179,8 +182,12 @@ class BurgerBuilder extends Component{
             orderSummary=<Spinner /> ;
         }
 
+
         let burger= <Spinner/>
-        
+        if(this.state.error){
+            burger=<p>{this.state.error.message} </p>
+        }
+
         if (this.state.ingredients){
             burger=(
                 <Fragment>

@@ -1,12 +1,23 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 
 function App() {
+  
+  const [myState,changeState]=useState({show:true});
+
+  const showOff=()=>{
+    changeState({show:!myState.show});
+    console.log(myState.show);
+  };
+
+  //setTimeout(()=>{show=false},10000);
+  
+
   return (
-    <div>
+    <div onClick={showOff}>
       <Layout>
-        <BurgerBuilder />
+        {myState.show?<BurgerBuilder />:null}
       </Layout>      
     </div>
   );
