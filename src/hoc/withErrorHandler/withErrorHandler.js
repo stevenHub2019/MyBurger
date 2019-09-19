@@ -1,6 +1,9 @@
-import React,{Component, Fragment} from 'react';
+// handle global request and request error using axios interceptors
 
+import React,{Component, Fragment} from 'react';
 import Modal from '../../components/UI/Modal/Modal';
+
+
 
 const withErrorHandler = (WrapperComponent,axios) => {
     return class extends Component{
@@ -39,16 +42,9 @@ const withErrorHandler = (WrapperComponent,axios) => {
                     </Modal>
                     <WrapperComponent {...this.props}/>
                 </Fragment>
-
             )
-            
-
         }
-         
-
     }
-       
-    
 }
 
 export default withErrorHandler;

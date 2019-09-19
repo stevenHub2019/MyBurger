@@ -9,24 +9,6 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class BurgerBuilder extends Component{
-    // constructor(props){
-    //     super(props);
-    //     this.state={
-    //         ingredients:{
-    //             salad:1,
-    //             cheese:2,
-    //             meat:1,
-    //             bacon:1
-
-    //         }
-    //     };
-    // }
-
-    //alternative to add ingredient in user's order
-    // create an array of ingredients user adds
-    //each time user add an ingredient
-    //add the ingrdient into the array
-
     state={
         ingredients:null,
         ingrPrice:{
@@ -44,6 +26,7 @@ class BurgerBuilder extends Component{
     }
 
     componentDidMount(){
+        
         axios.get('https://react-my-burger-49767.firebaseio.com/ingredients.json').then(
             response=>{
                 this.setState({ingredients:response.data})
@@ -122,37 +105,50 @@ class BurgerBuilder extends Component{
     }
 
     continuePurchaseHandler=()=>{
-        //alert('Continue to purchase');
-        const order={
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer:{
-                name:'Steve',
-                Address:{
-                    street:'williamton street',
-                    zipCode:'453732',
-                    country:'Germany'
-                },
-                email:'test@test.com'
-            },
-            deliveryMethod:'on foot'
-        };
-        this.setState({loading:true});
-        axios.post('./orders',order).then(
-            response=>{
-                this.setState({
-                    loading:false,
-                    purchasing:false
-                });
-                
-            }
-        ).catch(error=>{
-            this.setState({
-                loading:false,
-                purchasing:false
-            });
-            
+        const queryParams=[];
+        let i;
+        for(i in this.state.ingredients){
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        }
+        queryParams.push('price='+encodeURIComponent(this.state.totalPrice));
+        const queryString=queryParams.join('&');
+        console.log(queryString);
+
+        this.props.history.push({
+            pathname:'/checkout/',
+            search:'?'+queryString
         });
+
+        // const order={
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer:{
+        //         name:'Steve',
+        //         Address:{
+        //             street:'williamton street',
+        //             zipCode:'453732',
+        //             country:'Germany'
+        //         },
+        //         email:'test@test.com'
+        //     },
+        //     deliveryMethod:'on foot'
+        // };
+        // this.setState({loading:true});
+        // axios.post('./orders',order).then(
+        //     response=>{
+        //         this.setState({
+        //             loading:false,
+        //             purchasing:false
+        //         });
+                
+        //     }
+        // ).catch(error=>{
+        //     this.setState({
+        //         loading:false,
+        //         purchasing:false
+        //     });
+            
+        // });
     }
 
     render(){

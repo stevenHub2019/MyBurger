@@ -2,8 +2,10 @@ import React from 'react';
 import classes from './Burger.module.css';
 import BurgerIngredient from './BurgerIngredients/BurgerIngredient';
 import PropTypes from 'prop-types';
+//import {withRouter} from 'react-router-dom'
 
 const Burger= props=>{
+    
     let message=null;
 
     const arrOfIngredComponents =Object.keys(props.ingredients).map(
@@ -26,6 +28,7 @@ const Burger= props=>{
     // }
 
     //console.log(arrOfIngredComponents);
+    
     return (
         <div className={classes.Burger} >
 
