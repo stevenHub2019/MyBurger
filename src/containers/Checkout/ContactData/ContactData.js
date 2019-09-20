@@ -3,15 +3,69 @@ import Button from '../../../components/UI/Button/Button';
 import classes from './ContactData.module.css';
 import axios from '../../../axios-order';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
+
 
 export default class ContactData extends Component {
     state={
-        name:'',
-        email:'',
-        address:{
-            street:'',
-            postalCode:'',
-            country:''
+        orderForm:{
+            
+            name:{
+                elementType:'input',
+                elementConfig:{
+                    type:'text',
+                    placeholder:'Your Name'
+                },
+                value:''
+            },
+            
+            street:{
+                elementType:'input',
+                elementConfig:{
+                    type:'text',
+                    placeholder:'Street'
+                },
+                value:''
+            },
+            
+            zipCode:{
+                elementType:'input',
+                elementConfig:{
+                    type:'text',
+                    placeholder:'ZIP Code'
+                },
+                value:''
+            },
+            
+            country:{
+                elementType:'input',
+                elementConfig:{
+                    type:'text',
+                    placeholder:'Country'
+                },
+                value:''
+            },
+            
+            email:{
+                elementType:'input',
+                elementConfig:{
+                    type:'text',
+                    placeholder:'Email'
+                },
+                value:''
+            },
+            
+            deliveryMethod:{
+                elementType:'select',
+                elementConfig:{
+                    options:[
+                        {value:'fastest', displayValue:'Fastest'},
+                        {value:'cheapest', displayValue:'Cheapest'}
+                        ]
+                },
+                value:''
+            },
+            
         },
         loading:false
         
@@ -55,19 +109,28 @@ export default class ContactData extends Component {
 
     }
 
-    
 
     render() {
-        console.log(this.props);
+        let form=[];
+        let key;
+        for(key in this.state.orderForm){
+            form.push({
+                id:key,//name, street, email, zipcode
+                config:this.state.orderForm[key]  //{elementType:..,elementConfi:...}
+            })
+        }
 
+        console.log(form);
+        // props is passed as an object and when spread, will turn to attribues key = value
         let form=(
             <form>
-                <input type='text' name='name' placeholder='Your Name' />
-                <input type='text' name='email' placeholder='Your Mail' />
-                <input type='text' name='street' placeholder='Street' />
-                <input type='text' name='postal' placeholder='Postal Code' />
+                <Input elementType='..' elementConfig='...' value='...' />
+                <Input inputType='input' type='text' name='email' placeholder='Your Mail' />
+                <Input inputType='input' type='text' name='street' placeholder='Street' />
+                <Input inputType='input' type='text' name='postal' placeholder='Postal Code' />
                 <Button btnType='Success' clicked={this.orderHandler}>Order</Button>
-            </form>);
+            </form>
+        );
 
         if(this.state.loading){
             form=<Spinner/>
