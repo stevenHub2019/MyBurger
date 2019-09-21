@@ -109,25 +109,47 @@ export default class ContactData extends Component {
 
     }
 
+    inputChangedHandler=(event,id)=>{
+        const updatedOrderForm={...this.state.orderForm};
+        const updatedOrderFormElement={...updatedOrderForm[id]};
+        updatedOrderFormElement.value=event.target.value;
+        updatedOrderForm[id]=updatedOrderFormElement;
+        this.setState({orderForm:updatedOrderForm});
+
+        console.log(updatedOrderForm);
+        console.log(updatedOrderFormElement);
+        console.log(this.state.orderForm);
+    }
 
     render() {
-        let form=[];
+        // transform orderForm into an array
+        let formArray=[];
         let key;
         for(key in this.state.orderForm){
-            form.push({
+            formArray.push({
                 id:key,//name, street, email, zipcode
                 config:this.state.orderForm[key]  //{elementType:..,elementConfi:...}
             })
         }
 
-        console.log(form);
+        //dynamically creates Input components
+        let inputs=formArray.map(form=>{
+            return (
+                <Input 
+                    key={form.id}
+                    elementType={form.config.elementType} 
+                    value={form.config.value} 
+                    elementConfig={form.config.elementConfig}
+                    changed={(event)=>this.inputChangedHandler(event,form.id)}/>
+            )
+        });
+
         // props is passed as an object and when spread, will turn to attribues key = value
         let form=(
             <form>
-                <Input elementType='..' elementConfig='...' value='...' />
-                <Input inputType='input' type='text' name='email' placeholder='Your Mail' />
-                <Input inputType='input' type='text' name='street' placeholder='Street' />
-                <Input inputType='input' type='text' name='postal' placeholder='Postal Code' />
+                {/* <Input elementType='..' elementConfig='...' value='...' /> */}
+                {inputs}
+                
                 <Button btnType='Success' clicked={this.orderHandler}>Order</Button>
             </form>
         );
@@ -147,3 +169,6 @@ export default class ContactData extends Component {
         )
     }
 }
+
+
+
