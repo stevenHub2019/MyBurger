@@ -22,7 +22,7 @@ const Input = (props) => {
 
     switch( props.elementType){
         case ('input'):
-            console.log(props.value);
+            
             inputElement= <input className={inputClasses} 
                 value={props.value} 
                 {...props.elementConfig}

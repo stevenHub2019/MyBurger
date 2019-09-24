@@ -14,31 +14,22 @@ import * as actionTypes from '../../store/action';
 //UI state shouldn't be managed by redux
 class BurgerBuilder extends Component{
     state={
-        ingredients:null,  // manage by redux
-        ingrPrice:{         //manage by redux
-            salad:1,
-            cheese:1,
-            meat:2,
-            bacon:1.5   
-        },
-        totalPrice:2, //breadBase price   //manage by redux
-        purchaseable: false,
         purchasing:false,
         loading:false,
         error:null
     }
 
-    componentDidMount(){
-        this.props.getIngredients();
+    // componentDidMount(){
+    //     this.props.getIngredients();
         
-        // axios.get('https://react-my-burger-49767.firebaseio.com/ingredients.json').then(
-        //     response=>{
-        //         this.setState({ingredients:response.data})
-        //     }
-        // ).catch(error=>{
-        //     this.setState({error:error})
-        // });
-    }
+    //     axios.get('https://react-my-burger-49767.firebaseio.com/ingredients.json').then(
+    //         response=>{
+    //             this.setState({ingredients:response.data})
+    //         }
+    //     ).catch(error=>{
+    //         this.setState({error:error})
+    //     });
+    // }
 
     updatePurchaseable=(ingredients)=>{
         //const ingredients=this.props.ingredients;// ingredients is from old state
@@ -49,7 +40,7 @@ class BurgerBuilder extends Component{
         // const sumOfIngr=Object.keys(ingredients).map(ingrKey=>ingredients[ingrKey]).reduce(
         //     (prev,curr)=>prev+curr,0);   
 
-        this.setState({purchaseable:sumOfIngr>0})
+        return sumOfIngr>0
         //console.log(sumOfIngr); //ingredients obj is not updated 
 
     }
@@ -113,19 +104,10 @@ class BurgerBuilder extends Component{
         this.setState({purchasing:false});
     }
 
+    //pass ingredients and totalPrice as queryParams to checkout component 
     continuePurchaseHandler=()=>{
-        const queryParams=[];
-        let i;
-        for(i in this.props.ingredients){
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]));
-        }
-        queryParams.push('price='+encodeURIComponent(this.props.totalPrice));
-        const queryString=queryParams.join('&');
-        console.log(queryString);
-
         this.props.history.push({
-            pathname:'/checkout/',
-            search:'?'+queryString
+            pathname:'/checkout'
         });
 
         // const order={
@@ -203,7 +185,7 @@ class BurgerBuilder extends Component{
                     removeIngrHandler={this.props.removeIngredient}
                     disabledInfo={disabledInfo}
                     price={this.props.totalPrice}
-                    purchaseable={this.state.purchaseable}
+                    purchaseable={this.updatePurchaseable(this.props.ingredients)}
                     showModal={this.purchasingHandler} />
 
                 </Fragment>
