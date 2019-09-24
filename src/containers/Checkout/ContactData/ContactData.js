@@ -133,6 +133,7 @@ export default class ContactData extends Component {
             //={...formData,{[key]:this.state.orderForm[key].value}}
         }
 
+        // order summary / details
         const order={
             ingredients: this.props.ingredients,
             price: this.props.price,

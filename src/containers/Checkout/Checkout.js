@@ -13,7 +13,7 @@ export class Checkout extends Component {
             cheese:0,
             meat:0,
             bacon:0},
-        totalPrice: 2
+        totalPrice: 0
 
         // ingrPrice:{
         //     salad:1,
