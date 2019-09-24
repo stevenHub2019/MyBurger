@@ -8,9 +8,10 @@ const Button = (props) => {
     
     return (
         <button 
-        className={[classes.Button, classes[props.btnType]].join(' ')}
-        onClick={props.clicked}
-        style={{textTransform:'uppercase'}} >
+            className={[classes.Button, classes[props.btnType]].join(' ')}
+            onClick={props.clicked}
+            style={{textTransform:'uppercase'}}
+            disabled={props.disabled} >
 
             {props.children}
         </button>

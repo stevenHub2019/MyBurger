@@ -13,17 +13,24 @@ const Input = (props) => {
 
     //const {inputType,...other}=props
 
+    let inputClasses=[classes.InputElement];
+    if(!props.valid && props.shouldValidate && props.isTouch){
+        inputClasses.push(classes.Invalid);
+    }
+
+    inputClasses=inputClasses.join(' ');
+
     switch( props.elementType){
         case ('input'):
             console.log(props.value);
-            inputElement= <input className={classes.InputElement} 
+            inputElement= <input className={inputClasses} 
                 value={props.value} 
                 {...props.elementConfig}
                 onChange={props.changed} />;
             break;
 
         case ('textarea'):
-            inputElement= <textarea className={classes.InputElement} 
+            inputElement= <textarea className={inputClasses} 
                 value={props.value} 
                 {...props.elementConfig}
                 onChange={props.changed} />;
@@ -32,7 +39,7 @@ const Input = (props) => {
         case ('select'):
             inputElement=(
                 <select 
-                    className={classes.InputElement}  
+                    className={inputClasses}  
                     value={props.value}
                     onChange={props.changed}>
 
@@ -51,7 +58,7 @@ const Input = (props) => {
             break;
 
         default:
-            inputElement= <input className={classes.InputElement} 
+            inputElement= <input className={inputClasses} 
                 value={props.value} 
                 {...props.elementConfig}
                 onChange={props.changed} />;  
@@ -59,7 +66,7 @@ const Input = (props) => {
 
 
                 
-
+    //add error message prompt
     return (
         <div className={classes.Input}>
 

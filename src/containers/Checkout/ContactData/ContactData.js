@@ -6,6 +6,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 
 
+
 export default class ContactData extends Component {
     state={
         orderForm:{
@@ -16,7 +17,14 @@ export default class ContactData extends Component {
                     type:'text',
                     placeholder:'Your Name'
                 },
-                value:''
+                value:'',
+                validationRules:{
+                    required: true,
+                    minLength: 5,
+                    maxLength: 12
+                },
+                valid: false,
+                isTouch: false
             },
             
             street:{
@@ -25,7 +33,12 @@ export default class ContactData extends Component {
                     type:'text',
                     placeholder:'Street'
                 },
-                value:''
+                value:'',
+                validationRules:{
+                    required: true
+                },
+                valid: false,
+                isTouch: false
             },
             
             zipCode:{
@@ -34,7 +47,12 @@ export default class ContactData extends Component {
                     type:'text',
                     placeholder:'ZIP Code'
                 },
-                value:''
+                value:'',
+                validationRules:{
+                    required: true
+                },
+                valid: false,
+                isTouch: false
             },
             
             country:{
@@ -43,7 +61,12 @@ export default class ContactData extends Component {
                     type:'text',
                     placeholder:'Country'
                 },
-                value:''
+                value:'',
+                validationRules:{
+                    required: true
+                },
+                valid: false,
+                isTouch: false
             },
             
             email:{
@@ -52,7 +75,12 @@ export default class ContactData extends Component {
                     type:'text',
                     placeholder:'Email'
                 },
-                value:''
+                value:'',
+                validationRules:{
+                    required: true
+                },
+                valid: false,
+                isTouch: false
             },
             
             deliveryMethod:{
@@ -63,30 +91,52 @@ export default class ContactData extends Component {
                         {value:'cheapest', displayValue:'Cheapest'}
                         ]
                 },
-                value:''
+                value:'fastest',
+                isTouch: false,
+                validationRules:{},
+                valid: true
             },
             
         },
+        isFormValid:false,
         loading:false
         
     }
 
+    checkValidity=(value, rules)=>{
+        let isValid=true;
+
+        //check if a rule exisits in validation
+        if(rules.required){
+            isValid=value.trim() !=='' && isValid;
+        }
+
+        if(rules.minLength){
+            isValid=value.length>=rules.minLength && isValid;
+        }
+
+        if(rules.maxLength){
+            isValid=value.length<=rules.maxLength && isValid;
+        }
+
+        return isValid;
+
+    }
+
     orderHandler=(event)=>{
         event.preventDefault();//prevent sending request to reload the page;
-        
+
+        const formData={};
+        let key;
+        for(key in this.state.orderForm){
+            formData[key]=this.state.orderForm[key].value;
+            //={...formData,{[key]:this.state.orderForm[key].value}}
+        }
+
         const order={
             ingredients: this.props.ingredients,
             price: this.props.price,
-            customer:{
-                name:'Steve',
-                Address:{
-                    street:'williamton street',
-                    postalCode:'453732',
-                    country:'Germany'
-                },
-                email:'test@test.com'
-            },
-            deliveryMethod:'on foot'
+            orderData:formData
         };
 
         this.setState({loading:true});
@@ -110,15 +160,36 @@ export default class ContactData extends Component {
     }
 
     inputChangedHandler=(event,id)=>{
+        //clone orderFrom from the state
+        //immutably update the state
         const updatedOrderForm={...this.state.orderForm};
         const updatedOrderFormElement={...updatedOrderForm[id]};
-        updatedOrderFormElement.value=event.target.value;
-        updatedOrderForm[id]=updatedOrderFormElement;
-        this.setState({orderForm:updatedOrderForm});
 
-        console.log(updatedOrderForm);
-        console.log(updatedOrderFormElement);
-        console.log(this.state.orderForm);
+        //update value
+        updatedOrderFormElement.value=event.target.value;
+        
+        //update valid value
+        updatedOrderFormElement.valid=this.checkValidity(updatedOrderFormElement.value,updatedOrderFormElement.validationRules)
+        
+        //update isTouch
+        updatedOrderFormElement.isTouch=true;
+
+        //transfer deeply cloned updatedOrderFromElement to updatedOrderForm which can then be used to update orderFrom in the state
+        updatedOrderForm[id]=updatedOrderFormElement;
+
+        //updatae isFormValid
+        let isFormValid=true;
+        let key;
+        for(key in updatedOrderForm){
+            isFormValid= updatedOrderForm[key].valid && isFormValid;
+        }
+        
+        //console.log(isFormValid);
+
+        // state update
+        this.setState({orderForm:updatedOrderForm, isFormValid: isFormValid});
+        
+        //console.log(updatedOrderForm);
     }
 
     render() {
@@ -132,7 +203,10 @@ export default class ContactData extends Component {
             })
         }
 
+        //ORDER FORM
         //dynamically creates Input components
+
+        //where is props.label??
         let inputs=formArray.map(form=>{
             return (
                 <Input 
@@ -140,17 +214,22 @@ export default class ContactData extends Component {
                     elementType={form.config.elementType} 
                     value={form.config.value} 
                     elementConfig={form.config.elementConfig}
-                    changed={(event)=>this.inputChangedHandler(event,form.id)}/>
+                    changed={(event)=>this.inputChangedHandler(event,form.id)}
+                    valid={form.config.valid}
+                    shouldValidate={form.config.validationRules}
+                    isTouch={form.config.isTouch}
+                    label={form.id}/>  //props.lable??
             )
         });
 
         // props is passed as an object and when spread, will turn to attribues key = value
+        //how does onSubmit work??
         let form=(
-            <form>
+            <form onSubmit={this.orderHandler}>
                 {/* <Input elementType='..' elementConfig='...' value='...' /> */}
                 {inputs}
                 
-                <Button btnType='Success' clicked={this.orderHandler}>Order</Button>
+                <Button btnType='Success' disabled={!this.state.isFormValid} >Order</Button>
             </form>
         );
 
