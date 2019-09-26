@@ -9,7 +9,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/action';
+import * as actionTypes from '../../store/actions/action';
 
 //UI state shouldn't be managed by redux
 class BurgerBuilder extends Component{
