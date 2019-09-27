@@ -37,8 +37,15 @@ const reducer=(state=initialState,action)=>{
 
             return{
                 ...state,
-                ingredients: action.ingredients,
-                totalPrice: updatedPrice
+                ingredients: {
+                    salad:action.ingredients.salad,
+                    bacon:action.ingredients.bacon,
+                    cheese:action.ingredients.cheese,
+                    meat:action.ingredients.meat,
+                    
+                },
+                totalPrice: updatedPrice,
+                error:null
              
             }
         case actionTypes.ERROR:

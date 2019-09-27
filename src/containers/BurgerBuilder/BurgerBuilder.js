@@ -87,8 +87,7 @@ class BurgerBuilder extends Component{
             burger=<p>{this.props.error.message} </p>
         }
 
-        // ingredients if exist
-        
+        // ingredients if exist   
         if (this.props.ingredients){
             burger=(
                 <Fragment>

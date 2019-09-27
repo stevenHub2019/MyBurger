@@ -23,12 +23,11 @@ export const getIngr=()=>{
             response=>{
                 dispatch(updateIngr(response.data));
                 console.log(response.data);
-                //this.setState({ingredients:response.data})
+                
             }
         ).catch(error=>{
             dispatch(updateError(error));
-            //console.log(error);
-            //this.setState({error:error})
+          
         });
     }
 
