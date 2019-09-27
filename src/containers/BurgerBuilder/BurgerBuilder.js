@@ -16,9 +16,7 @@ import * as actionCreator from '../../store/actions/index';
 //UI state shouldn't be managed by redux
 class BurgerBuilder extends Component{
     state={
-        purchasing:false,
-        loading:false,
-        //error:null
+        purchasing:false
     }
 
     componentDidMount(){
@@ -81,11 +79,6 @@ class BurgerBuilder extends Component{
                     totalPrice={this.props.totalPrice}
                 />
             );
-
-        }
-
-        if(this.state.loading){
-            orderSummary=<Spinner /> ;
         }
 
 
