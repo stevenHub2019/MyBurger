@@ -123,6 +123,7 @@ class ContactData extends Component {
 
     }
 
+    // refactorize to redux dispatch
     orderHandler=(event)=>{
         event.preventDefault();//prevent sending request to reload the page;
 

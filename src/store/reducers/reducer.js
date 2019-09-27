@@ -1,12 +1,13 @@
-import * as actionTypes from '../actions/action';
-import axios from '../../axios-order';
+import * as actionTypes from '../actions/actionTypes';
+
 
 const initialState={
-    ingredients:{
-        salad:0,
-        cheese:0,
-        bacon:0,
-        meat:0 },
+    ingredients:null,
+    // {
+    //     salad:0,
+    //     cheese:0,
+    //     bacon:0,
+    //     meat:0 },
     totalPrice:2,
     ingrPrice:{         //manage by redux
         salad:1,
@@ -20,22 +21,31 @@ const initialState={
 const reducer=(state=initialState,action)=>{
 
     switch(action.type){
-        case actionTypes.GETINGR:
-            axios.get('https://react-my-burger-49767.firebaseio.com/ingredients.json').then(
-                response=>{
-                    return {
-                        ...state,
-                        ingredients:response.data
-                    }
-                    //this.setState({ingredients:response.data})
-                }
-            ).catch(error=>{
-                return{
-                    error:error
-                }
-                //this.setState({error:error})
+        case actionTypes.GET_INGR:
+
+            //update totalPrice :long but secure way
+            //ingr price
+            let totalIngrPrice=0;
+            Object.keys(action.ingredients).forEach((ingr)=>{
+                totalIngrPrice += action.ingredients[ingr]*state.ingrPrice[ingr];
             });
-            break;
+            
+            //base price
+            const basePrice=2;
+            //total price
+            const updatedPrice=basePrice+totalIngrPrice;
+
+            return{
+                ...state,
+                ingredients: action.ingredients,
+                totalPrice: updatedPrice
+             
+            }
+        case actionTypes.ERROR:
+            return{
+                ...state,
+                error:action.error
+            }   
         
         case actionTypes.ADD_INGR: {
             // increment ingredient count
@@ -44,7 +54,7 @@ const reducer=(state=initialState,action)=>{
         
             //update price
             const updatedPrice=state.totalPrice+state.ingrPrice[action.ingrType];
-            
+        
             //update state
             return {
                 ...state,
