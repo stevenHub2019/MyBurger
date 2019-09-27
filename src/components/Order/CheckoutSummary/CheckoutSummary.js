@@ -5,6 +5,7 @@ import Button from '../../UI/Button/Button';
 //import {withRouter } from 'react-router-dom';
 
 const CheckoutSummary = (props) => {
+    debugger
     
     return (
         <div className={classes.CheckoutSummary}>

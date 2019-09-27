@@ -18,12 +18,19 @@ export class Checkout extends Component {
 
     render() {
         // how both props and router props can be passed to component
-        return (
-            <div className={classes.Checkout}>
-                <CheckoutSummary 
+        
+        let checkoutSummary= <h1>Please add ingredients to your burger</h1>
+        
+        if(this.props.ingredients){
+            checkoutSummary=(<CheckoutSummary 
                     ingredients={this.props.ingredients}
                     checkoutCancelled={this.checkoutCancelled}
-                    checkoutContinued={this.checkoutContinued}/>
+                    checkoutContinued={this.checkoutContinued}/>);
+
+        }
+        return (
+            <div className={classes.Checkout}>
+                {checkoutSummary}
                 
                 <Route 
                     path={this.props.match.path+'/contact-data'} 

@@ -7,8 +7,9 @@ import {BrowserRouter as Router} from 'react-router-dom';
 
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
-import reducer from './store/reducers/reducer';
+import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import thunk from 'redux-thunk';
+import orderReducer from './store/reducers/order';
 
 const logger=(store)=>{
     return next=>{
@@ -24,13 +25,15 @@ const logger=(store)=>{
 const combinedEnhancers=window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 //combine reducers
-// const rootReducer=combineReducers(
-//     {
-//         builder:
-//     }
-// )
+const rootReducer=combineReducers(
+    {
+        bbr: burgerBuilderReducer,
+        or: orderReducer
+        
+    }
+)
 
-const store=createStore(reducer,combinedEnhancers( applyMiddleware(logger,thunk) ) );
+const store=createStore(rootReducer,combinedEnhancers( applyMiddleware(logger,thunk) ) );
 
 
 const app=(

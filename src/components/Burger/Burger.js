@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 const Burger= props=>{
     
+
     let message=null;
 
     const arrOfIngredComponents =Object.keys(props.ingredients).map(

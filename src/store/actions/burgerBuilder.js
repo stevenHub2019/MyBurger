@@ -18,8 +18,6 @@ const updateError=(error)=>{
 
 //async getIngr
 export const getIngr=()=>{
-    console.log('[actionCreator: getIngr]');
-
     return dispatch=>{
         axios.get('https://react-my-burger-49767.firebaseio.com/ingredients.json').then(
             response=>{
