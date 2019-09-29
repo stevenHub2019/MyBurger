@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-
+import {updateObject} from '../../store/utility/utility';
 
 const initialState={
     ingredients:null,
@@ -35,24 +35,34 @@ const reducer=(state=initialState,action)=>{
             //total price
             const updatedPrice=basePrice+totalIngrPrice;
 
-            return{
-                ...state,
-                ingredients: {
+            return updateObject(state,{
+                ingredients:{
                     salad:action.ingredients.salad,
                     bacon:action.ingredients.bacon,
                     cheese:action.ingredients.cheese,
-                    meat:action.ingredients.meat,
-                    
+                    meat:action.ingredients.meat 
                 },
                 totalPrice: updatedPrice,
                 error:null
+            });
+            // {
+            //     ...state,
+            //     ingredients: {
+            //         salad:action.ingredients.salad,
+            //         bacon:action.ingredients.bacon,
+            //         cheese:action.ingredients.cheese,
+            //         meat:action.ingredients.meat 
+            //     },
+            //     totalPrice: updatedPrice,
+            //     error:null
              
-            }
+            // }
         case actionTypes.ERROR:
-            return{
-                ...state,
-                error:action.error
-            }   
+            return updateObject(state,{error:action.error});
+            // {
+            //     ...state,
+            //     error:action.error
+            // }   
         
         case actionTypes.ADD_INGR: {
             // increment ingredient count
@@ -61,24 +71,29 @@ const reducer=(state=initialState,action)=>{
         
             //update price
             const updatedPrice=state.totalPrice+state.ingrPrice[action.ingrType];
-        
-            //update state
-            return {
-                ...state,
-                ingredients:updatedIngredients,
-                totalPrice:updatedPrice
-            }
-        }
-        case actionTypes.REMOVE_INGR:{
-             return {
-                 ...state,
-                 ingredients:{
-                     ...state.ingredients,
-                     [action.ingrType]:state.ingredients[action.ingrType]-1
 
-                 },
-                 totalPrice:state.totalPrice- state.ingrPrice[action.ingrType]
-             }
+            return updateObject(state,{
+                ingredients:updatedIngredients,
+                totalPrice:updatedPrice});
+        }
+
+        case actionTypes.REMOVE_INGR:{
+            const updatedIngr=updateObject(state.ingredients,{[action.ingrType]:state.ingredients[action.ingrType]-1});
+            const updatedState={
+                ingredients:updatedIngr,
+                totalPrice:state.totalPrice- state.ingrPrice[action.ingrType]
+            };
+            return updateObject(state,updatedIngr);
+
+            //  return {
+            //      ...state,
+            //      ingredients:{
+            //          ...state.ingredients,
+            //          [action.ingrType]:state.ingredients[action.ingrType]-1
+
+            //      },
+            //      totalPrice:state.totalPrice- state.ingrPrice[action.ingrType]
+            //  }
         }
 
             
