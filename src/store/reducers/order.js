@@ -25,7 +25,7 @@ const reducer=(state=initialState, action)=>{
             return updateObject(state, {loading:true});
             
             
-        case actionTypes.SUBMIT_SUCCESSFUL: return submitSuccessful(state,actin);
+        case actionTypes.SUBMIT_SUCCESSFUL: return submitSuccessful(state,action);
 
         case actionTypes.SUBMIT_FAILED:{
             return updateObject(state,{
