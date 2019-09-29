@@ -142,9 +142,9 @@ class ContactData extends Component {
             orderData:formData
         };
 
-        //this.setState({loading:true});
-
-        this.props.onOrderSubmit(order);
+        const redirectFun=this.props.history;
+        
+        this.props.onOrderSubmit(order,redirectFun);
 
         // //firebase use .json as the endpoint
         // axios.post('/orders.json',order).then( 
@@ -264,9 +264,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps= dispatch =>{
     return{
-        onOrderSubmit: (orderData)=> dispatch(actionCreator.submitOrder(orderData)),
-        
-        
+        onOrderSubmit: (orderData,redirectFun)=> dispatch(actionCreator.submitOrder(orderData,redirectFun))
     }
 }
 

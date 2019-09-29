@@ -12,6 +12,7 @@ const initialState={
 const reducer=(state=initialState, action)=>{
     switch (action.type) {
         case actionTypes.SUBMIT_ORDER:
+            
             return {
                 ...state,
                 loading:true
