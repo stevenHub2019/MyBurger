@@ -22,6 +22,7 @@ class BurgerBuilder extends Component{
     componentDidMount(){
         console.log(this.props)
         this.props.getIngredients();
+        
 
         // this.props.getIngredients();
         
@@ -52,8 +53,9 @@ class BurgerBuilder extends Component{
         this.setState({purchasing:false});
     }
 
-    //pass ingredients and totalPrice as queryParams to checkout component 
+    //continue to checkout component 
     continuePurchaseHandler=()=>{
+        this.props.initPurchase();//initalizing purchased to false at the begining of new order
         this.props.history.push({
             pathname:'/checkout'
         });
@@ -135,7 +137,8 @@ const mapDispatchToProps=dispatch=>{
     return {
         getIngredients:()=>dispatch(actionCreator.getIngr()),
         addIngredient:(type)=> dispatch(actionCreator.addIngr(type)),
-        removeIngredient:(type)=> dispatch(actionCreator.removeIngr(type))
+        removeIngredient:(type)=> dispatch(actionCreator.removeIngr(type)),
+        initPurchase:()=>dispatch(actionCreator.initPurchase())
     }
 
 };

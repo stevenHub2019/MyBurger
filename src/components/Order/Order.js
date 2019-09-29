@@ -31,7 +31,7 @@ const Order = (props) => {
 
     return (
         <div className={classes.Order}>
-            <p style={{fontWeight:'bold'}}>Order : {props.index}</p>
+            <p style={{fontWeight:'bold'}}>Order : {+props.index+1}</p>
             <p> Ingredients : {ingrDisplay} </p>
             
 

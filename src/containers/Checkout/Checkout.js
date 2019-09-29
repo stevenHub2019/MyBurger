@@ -17,12 +17,12 @@ export class Checkout extends Component {
 
     render() {
         
-        
         let checkoutSummary= <Redirect to='/' />
         console.log(this.props.ingredients);
 
         if(this.props.ingredients){
-            checkoutSummary=(
+            
+            checkoutSummary= this.props.purchased? <Redirect to='/' /> : (
                 <div className={classes.Checkout}>
                      <CheckoutSummary 
                         ingredients={this.props.ingredients}
@@ -44,6 +44,7 @@ const mapStateToProps= state =>{
 
     return {
         ingredients:state.bbr.ingredients,
+        purchased:state.or.purchased
     }
 };
 

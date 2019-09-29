@@ -21,7 +21,7 @@ class ContactData extends Component {
                 value:'',
                 validationRules:{
                     required: true,
-                    minLength: 5,
+                    minLength: 1,
                     maxLength: 12
                 },
                 valid: false,
@@ -141,10 +141,8 @@ class ContactData extends Component {
             price: this.props.totalPrice,
             orderData:formData
         };
-
-        const redirectFun=this.props.history;
         
-        this.props.onOrderSubmit(order,redirectFun);
+        this.props.onOrderSubmit(order);
 
         // //firebase use .json as the endpoint
         // axios.post('/orders.json',order).then( 
@@ -264,7 +262,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps= dispatch =>{
     return{
-        onOrderSubmit: (orderData,redirectFun)=> dispatch(actionCreator.submitOrder(orderData,redirectFun))
+        onOrderSubmit: (orderData)=> dispatch(actionCreator.submitOrder(orderData))
     }
 }
 
