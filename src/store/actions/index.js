@@ -4,4 +4,6 @@ export {
     removeIngr
 } from './burgerBuilder';
 
-export {} from './order';
+export {
+    submitOrder
+} from './order';

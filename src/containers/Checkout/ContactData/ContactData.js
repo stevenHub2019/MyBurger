@@ -5,12 +5,13 @@ import axios from '../../../axios-order';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import {connect} from 'react-redux';
-
+//import * as actionTypes from '../../../store/actions/actionTypes';
+import * as actionCreator from '../../../store/actions/index';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 class ContactData extends Component {
     state={
         orderForm:{
-            
             name:{
                 elementType:'input',
                 elementConfig:{
@@ -99,7 +100,7 @@ class ContactData extends Component {
             
         },
         isFormValid:false,
-        loading:false
+        //loading:false
         
     }
 
@@ -127,7 +128,7 @@ class ContactData extends Component {
     orderHandler=(event)=>{
         event.preventDefault();//prevent sending request to reload the page;
 
-        const formData={};
+        const formData={}; // {name : value , address: value...}
         let key;
         for(key in this.state.orderForm){
             formData[key]=this.state.orderForm[key].value;
@@ -141,23 +142,25 @@ class ContactData extends Component {
             orderData:formData
         };
 
-        this.setState({loading:true});
+        //this.setState({loading:true});
 
-        //firebase use .json as the endpoint
-        axios.post('/orders.json',order).then( 
-            response=>{
-                this.setState({
-                    loading:false,    
-                });
-                this.props.history.push('/');
-            }
-        ).catch(error=>{
-            this.setState({
-                loading:false,
+        this.props.onOrderSubmit(order);
+
+        // //firebase use .json as the endpoint
+        // axios.post('/orders.json',order).then( 
+        //     response=>{
+        //         this.setState({
+        //             loading:false,    
+        //         });
+        //         this.props.history.push('/');
+        //     }
+        // ).catch(error=>{
+        //     this.setState({
+        //         loading:false,
                 
-            });
+        //     });
             
-        });
+        // });
 
     }
 
@@ -235,7 +238,7 @@ class ContactData extends Component {
             </form>
         );
 
-        if(this.state.loading){
+        if(this.props.loading){
             form=<Spinner/>
         }
 
@@ -253,11 +256,22 @@ class ContactData extends Component {
 
 
 const mapStateToProps = (state) => ({
-    ingredients:state.ingredients,
-    totalPrice:state.totalPrice
-})
+    ingredients:state.bbr.ingredients,
+    totalPrice:state.bbr.totalPrice,
+    loading:state.or.loading
+
+});
+
+const mapDispatchToProps= dispatch =>{
+    return{
+        onOrderSubmit: (orderData)=> dispatch(actionCreator.submitOrder(orderData)),
+        
+        
+    }
+}
 
 
 
 
-export default connect(mapStateToProps)(ContactData);
+
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ContactData,axios));

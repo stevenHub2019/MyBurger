@@ -3,7 +3,7 @@ import classes from './Checkout.module.css';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
-import {Route} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
@@ -11,41 +11,39 @@ export class Checkout extends Component {
 
     checkoutContinued=()=>{
         this.props.history.replace('/checkout/contact-data');
-        
     }
 
     checkoutCancelled=()=>this.props.history.goBack()  //?? doesn't work
 
     render() {
-        // how both props and router props can be passed to component
         
-        let checkoutSummary= <h1>Please add ingredients to your burger</h1>
         
+        let checkoutSummary= <Redirect to='/' />
+        console.log(this.props.ingredients);
+
         if(this.props.ingredients){
-            checkoutSummary=(<CheckoutSummary 
-                    ingredients={this.props.ingredients}
-                    checkoutCancelled={this.checkoutCancelled}
-                    checkoutContinued={this.checkoutContinued}/>);
+            checkoutSummary=(
+                <div className={classes.Checkout}>
+                     <CheckoutSummary 
+                        ingredients={this.props.ingredients}
+                        checkoutCancelled={this.checkoutCancelled}
+                        checkoutContinued={this.checkoutContinued}/>
 
+                    <Route 
+                        path={this.props.match.path+'/contact-data'} 
+                        component={ContactData}/>
+                </div>
+           );
         }
-        return (
-            <div className={classes.Checkout}>
-                {checkoutSummary}
-                
-                <Route 
-                    path={this.props.match.path+'/contact-data'} 
-                    component={ContactData}/>
-                
 
-            </div>
-        )
+        return checkoutSummary;
     }
 }
 
 const mapStateToProps= state =>{
 
     return {
-        ingredients:state.ingredients,
+        ingredients:state.bbr.ingredients,
     }
 };
 

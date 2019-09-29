@@ -11,7 +11,7 @@ const Order = (props) => {
     
 
     const ingredients=[];
-    let ingrName
+    let ingrName;
     for (ingrName in props.ingredients){
         ingredients.push(
             {
