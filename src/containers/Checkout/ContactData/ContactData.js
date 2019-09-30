@@ -144,22 +144,6 @@ class ContactData extends Component {
         
         this.props.onOrderSubmit(order);
 
-        // //firebase use .json as the endpoint
-        // axios.post('/orders.json',order).then( 
-        //     response=>{
-        //         this.setState({
-        //             loading:false,    
-        //         });
-        //         this.props.history.push('/');
-        //     }
-        // ).catch(error=>{
-        //     this.setState({
-        //         loading:false,
-                
-        //     });
-            
-        // });
-
     }
 
     inputChangedHandler=(event,id)=>{
@@ -196,7 +180,7 @@ class ContactData extends Component {
     }
 
     render() {
-        // transform orderForm into an array
+         // transform orderForm into an array
         let formArray=[];
         let key;
         for(key in this.state.orderForm){
