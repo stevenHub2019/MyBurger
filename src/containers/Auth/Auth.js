@@ -3,6 +3,10 @@ import classes from './Auth.module.css';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 
+import {connect} from 'react-redux';
+import * as actionCreator from '../../store/actions/index';
+
+
 
 class Auth extends Component{
     //state form
@@ -32,7 +36,7 @@ class Auth extends Component{
                 value:'',
                 validationRules:{
                     required: true,
-                    minLength: 6
+                    minLength: 6  //user defined rule  //firebase or other server may impose their own rules
                     
                 },
                 valid: false,
@@ -58,7 +62,8 @@ class Auth extends Component{
         }
 
         if(rules.isEmail){
-            const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+            const pattern = /^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)[\\.]([a-zA-Z]{2,9})$/;
             isValid= pattern.test(value) && isValid;
         }
 
@@ -93,6 +98,12 @@ class Auth extends Component{
         this.setState({controls:updatedControls});
     }
 
+
+    submitHandler=(event)=>{
+        event.preventDefault();
+        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value );
+    }
+
     render(){
         let formArray=[];
         let key;
@@ -122,7 +133,7 @@ class Auth extends Component{
         // props is passed as an object and when spread, will turn to attribues key = value
         //how does onSubmit work??
         let form=(
-            <form >
+            <form onSubmit={this.submitHandler} >
                 {inputs}
                 
                 <Button btnType='Success' > Log In</Button>
@@ -144,4 +155,12 @@ class Auth extends Component{
     }
 }
 
-export default Auth;
+
+const mapDispatchToProps = dispatch=>{
+    return{
+        onAuth: (email,password)=>dispatch(actionCreator.auth(email,password))
+    }
+}
+
+
+export default connect(null, mapDispatchToProps )(Auth);
