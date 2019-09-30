@@ -1,13 +1,50 @@
 import * as actionTypes from '../actions/actionTypes';
+import {updateObject} from '../utility/utility';
 
 const initialState={
+    token:null,
+    userId:null,
+    error:null,
+    loading:false
+};
 
+const authStart=(state)=>{
+    return updateObject(state,{
+        loading:true,
+        error:null
+    }); 
+};
+
+const authSuccess=(state,action)=>{
+    //console.log(action.authData.localId);
+    //console.log(action.authData.idToken);
+
+    return updateObject(state,{
+        userId: action.userId,
+        token:action.token,
+        loading:false
+
+    })
+};
+
+const authFailed=(state,action)=>{
+    return updateObject(state,{
+        loading:false,
+        error:action.error
+    });
 };
 
 const reducer=(state=initialState, action)=>{
     switch (action.type) {
-        case actionTypes.AUTH_SUBMIT_START:
-            return ;
+        case actionTypes.AUTH_START:
+            return authStart(state,action);
+
+        case actionTypes.AUTH_SUCCESS:
+            return authSuccess(state,action);
+
+        case actionTypes.AUTH_FAILED:
+            return authFailed(state,action);
+
         default:
             return state;
     }
