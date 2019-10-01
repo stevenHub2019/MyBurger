@@ -30,23 +30,25 @@ const authSuccess=(state,action)=>{
 const authFailed=(state,action)=>{
     return updateObject(state,{
         loading:false,
-        error:action.error
+        errorMsg:action.errorMsg
     });
 };
 
+const logOut=(state)=>{
+    return updateObject(state,{
+        userId:null,
+        token:null,
+        loading:false
+    })
+}
+
 const reducer=(state=initialState, action)=>{
     switch (action.type) {
-        case actionTypes.AUTH_START:
-            return authStart(state,action);
-
-        case actionTypes.AUTH_SUCCESS:
-            return authSuccess(state,action);
-
-        case actionTypes.AUTH_FAILED:
-            return authFailed(state,action);
-
-        default:
-            return state;
+        case actionTypes.AUTH_START:return authStart(state,action);
+        case actionTypes.AUTH_SUCCESS:return authSuccess(state,action);
+        case actionTypes.AUTH_FAILED:return authFailed(state,action);      
+        case actionTypes.LOG_OUT:return logOut(state);
+        default:return state;
     }
 
 }

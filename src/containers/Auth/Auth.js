@@ -2,9 +2,11 @@ import React,{Component} from 'react';
 import classes from './Auth.module.css';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 import {connect} from 'react-redux';
 import * as actionCreator from '../../store/actions/index';
+
 
 
 
@@ -139,6 +141,7 @@ class Auth extends Component{
 
         // props is passed as an object and when spread, will turn to attribues key = value
         //how does onSubmit work??
+    
         let form=(
             <form onSubmit={this.submitHandler} >
                 {inputs}
@@ -147,9 +150,17 @@ class Auth extends Component{
             </form>
         );
 
+    
+        if (this.props.loading){
+            form= <Spinner/>
+        }
+
+        let errorMsg=this.props.errorMsg? <h3>{this.props.errorMsg}</h3> : null;
+
         return (
             <div className={classes.Auth}>
                 <h3>{this.state.isSignUp?'SIGN UP':'SIGN IN'}</h3>
+                {errorMsg}
                 {form}   
                 <Button btnType='Danger' clicked={this.switchHandler} >
                     SWITCH TO {this.state.isSignUp?'SIGNIN':'SIGNUP'} 
@@ -169,5 +180,11 @@ const mapDispatchToProps = dispatch=>{
     }
 }
 
+const mapStateToProps = state=>{
+    return{
+        loading:state.ar.loading,
+        errorMsg:state.ar.errorMsg
+    }
+}
 
-export default connect(null, mapDispatchToProps )(Auth);
+export default connect(mapStateToProps, mapDispatchToProps )(Auth);
