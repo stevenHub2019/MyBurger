@@ -24,11 +24,15 @@ const logout=()=>{
     }
 }
 
-const logoutTimeout=(expiresIn,dispatch)=>{
-    setTimeout(()=>{
-        dispatch(logout());
-        
-    },expiresIn);
+
+
+//dispatch method is provided by thunk function wrapper
+const tokenExpTimeout=expiresIn=>{
+    return dispatch=>{
+        setTimeout(()=>{
+            dispatch(logout());           
+        },expiresIn);
+    };
 };
 
 
@@ -50,9 +54,9 @@ export const auth=(email,password, isSignUp)=>{
         axios.post(endpoint,authPost)
             .then(response=>{
                 dispatch(authSuccess(response.data));
-                logoutTimeout(+response.data.expiresIn*1000,dispatch);
+                dispatch(tokenExpTimeout(+response.data.expiresIn*1));
 
-                console.log(response.data);
+                //console.log(response.data);
             }).catch(err=>{
                 dispatch(authFailed(err.response.data.error.message));
                 console.log(err.response.data.error.message);
