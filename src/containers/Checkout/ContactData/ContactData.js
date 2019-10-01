@@ -142,7 +142,7 @@ class ContactData extends Component {
             orderData:formData
         };
         
-        this.props.onOrderSubmit(order);
+        this.props.onOrderSubmit(order,this.props.token);
 
     }
 
@@ -240,13 +240,14 @@ class ContactData extends Component {
 const mapStateToProps = (state) => ({
     ingredients:state.bbr.ingredients,
     totalPrice:state.bbr.totalPrice,
-    loading:state.or.loading
+    loading:state.or.loading,
+    token:state.ar.token
 
 });
 
 const mapDispatchToProps= dispatch =>{
     return{
-        onOrderSubmit: (orderData)=> dispatch(actionCreator.submitOrder(orderData))
+        onOrderSubmit: (orderData,token)=> dispatch(actionCreator.submitOrder(orderData,token))
     }
 }
 

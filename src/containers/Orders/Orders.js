@@ -8,33 +8,12 @@ import * as actionCreator from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 export class Orders extends Component {
-    // state={
-    //     orders:[],
-    //     loading: false
-    // }
 
     componentDidMount(){
-        this.props.onGetOrder();
-
-        // axios.get('/orders.json').then((response)=>{
-        //     let key;
-        //     const fetchedOrders=[];// an array of order objects
-        //     for(key in response.data){
-        //         fetchedOrders.push({
-        //             ...response.data[key],
-        //             id:key
-        //         });
-        //     }
-
-        //     this.setState({loading:false, orders:fetchedOrders});
-        // }).catch(err=>{
-        //     this.setState({loading:false});
-        // });
+        this.props.onGetOrder(this.props.token);
     }
 
     render() {
-        
-
         let orders= <Spinner/>;
         if(!this.props.loading){
             orders=this.props.orders.map((order,index)=>{    
@@ -51,9 +30,7 @@ export class Orders extends Component {
 
         return (
             <div>
-
                 {orders}
-
             </div>
         )
     }
@@ -62,16 +39,14 @@ export class Orders extends Component {
 
 const mapStateToProps = (state) => ({
     orders:state.or.orders,
-    loading:state.or.loading
+    loading:state.or.loading,
+    token:state.ar.token
 })
 
 const mapDispatchToProps = dispatch =>{
     return{
-        onGetOrder: ()=> dispatch(actionCreator.getOrder())
-    }
-    
+        onGetOrder: (token)=> dispatch(actionCreator.getOrder(token))
+    }   
 }
-
-
 
 export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(Orders,axios));

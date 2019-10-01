@@ -34,6 +34,7 @@ const authFailed=(state,action)=>{
     });
 };
 
+
 const logOut=(state)=>{
     return updateObject(state,{
         userId:null,

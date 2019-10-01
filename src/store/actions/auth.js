@@ -18,7 +18,7 @@ const authFailed=(err)=>({
     errorMsg:err
 });
 
-const logout=()=>{
+export const logout=()=>{
     return {
         type:actionTypes.LOG_OUT,
     }
@@ -54,7 +54,7 @@ export const auth=(email,password, isSignUp)=>{
         axios.post(endpoint,authPost)
             .then(response=>{
                 dispatch(authSuccess(response.data));
-                dispatch(tokenExpTimeout(+response.data.expiresIn*1));
+                dispatch(tokenExpTimeout(+response.data.expiresIn*3600));
 
                 //console.log(response.data);
             }).catch(err=>{

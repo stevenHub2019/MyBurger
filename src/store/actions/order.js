@@ -12,8 +12,7 @@ const submitSuccessful=(id,orderData)=>{
     return {
         type: actionTypes.SUBMIT_SUCCESSFUL,
         orderData:orderData,
-        orderId:id,
-        
+        orderId:id     
     }
 
 };
@@ -23,22 +22,21 @@ const submitFailed=(error)=>{
         type:actionTypes.SUBMIT_FAILED,
         error:error
     }
-
 }
 
 
-export const submitOrder=(orderData)=>{
+export const submitOrder=(orderData,token)=>{
     
     return dispatch=>{
         dispatch(postSubmit());
-        axios.post('/orders.json',orderData).then( 
+        //  '/orders.json' determine the json file name in which the post data will be stored
+        axios.post('/orders.json?auth='+token, orderData).then( 
             response=>{
                 //console.log(response.data.name); // check out to extract id
                 dispatch(submitSuccessful(response.data.name,orderData));
             }).catch(error=>{
                 dispatch(submitFailed(error));
-            });
-                
+            });           
     }
 }
 
@@ -46,7 +44,6 @@ export const initPurchase=()=>{
     return{
         type:actionTypes.INIT_PURCHASE
     }
-    
 }
 
 
@@ -64,10 +61,10 @@ const fetchOrderFailed=(err)=>({
     error:err
 });
 
-export const getOrder=()=>{
+export const getOrder=(token)=>{
     return dispatch=>{
         dispatch(fetchOrder());
-        axios.get('/orders.json').then((response)=>{
+        axios.get('/orders.json?auth='+token).then((response)=>{
             let key;
             const fetchedOrders=[];// an array of order objects
             for(key in response.data){
@@ -78,13 +75,9 @@ export const getOrder=()=>{
             };
             dispatch(fetchOrderSucess(fetchedOrders));
 
-        //this.setState({loading:false, orders:fetchedOrders});
         }).catch(err=>{
             dispatch(fetchOrderFailed(err));
-            //this.setState({loading:false});
         });
-
     }
     
-
 };

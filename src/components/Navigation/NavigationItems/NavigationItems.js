@@ -2,15 +2,18 @@ import React from 'react';
 import classes from './NavigationItems.module.css';
 import NavigationItem from './NavigationItem/NavigationItem';
 
-const NavigationItems = () => {
+const NavigationItems = (props) => {
 
     //active is hard-coded ; how to make it dynamic?
     // pass exact as a props into NavigationItem component
     return (
         <ul className={classes.NavigationItems}>
             <NavigationItem link='/' exact >Burger Builder </NavigationItem>
-            <NavigationItem link='/orders' > Orders </NavigationItem>
-            <NavigationItem link='/auth' > Authenticate </NavigationItem>
+            {props.isAuth?<NavigationItem link='/orders' > Orders </NavigationItem>:null}
+            {!props.isAuth
+                ?<NavigationItem link='/auth' > Authenticate </NavigationItem>
+                :<NavigationItem link='/logout'> Logout </NavigationItem> }
+            
         </ul>
     )
 }

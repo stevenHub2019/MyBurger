@@ -21,13 +21,10 @@ export const getIngr=()=>{
     return dispatch=>{
         axios.get('https://react-my-burger-49767.firebaseio.com/ingredients.json').then(
             response=>{
-                dispatch(updateIngr(response.data));
-                console.log(response.data);
-                
+                dispatch(updateIngr(response.data));         
             }
         ).catch(error=>{
             dispatch(updateError(error));
-          
         });
     }
 
@@ -50,16 +47,3 @@ export const removeIngr=(type)=>{
 
 };
 
-
-
-// componentDidMount(){
-    //     this.props.getIngredients();
-        
-    //     axios.get('https://react-my-burger-49767.firebaseio.com/ingredients.json').then(
-    //         response=>{
-    //             this.setState({ingredients:response.data})
-    //         }
-    //     ).catch(error=>{
-    //         this.setState({error:error})
-    //     });
-    // }
