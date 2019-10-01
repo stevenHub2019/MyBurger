@@ -3,7 +3,6 @@ import {updateObject} from '../../store/utility/utility';
 
 const initialState={
     ingredients:null,
-  
     totalPrice:2,
     ingrPrice:{         //manage by redux
         salad:1,
@@ -11,7 +10,8 @@ const initialState={
         meat:2,
         bacon:1.5   
     },
-    error:null
+    error:null,
+    building:false
 }
 
 const getIngr=(state,action)=>{
@@ -35,7 +35,8 @@ const getIngr=(state,action)=>{
                 meat:action.ingredients.meat 
             },
             totalPrice: updatedPrice,
-            error:null
+            error:null,
+            building: false
         });
 
 };
@@ -52,14 +53,17 @@ const addIngr=(state,action)=>{
 
     return updateObject(state,{
         ingredients:updatedIngredients,
-        totalPrice:updatedPrice});
+        totalPrice:updatedPrice,
+        building:true
+    });
 };
 
 const removeIngr=(state,action)=>{
     const updatedIngr=updateObject(state.ingredients,{[action.ingrType]:state.ingredients[action.ingrType]-1});
     return updateObject(state,{
         ingredients:updatedIngr,
-        totalPrice:state.totalPrice- state.ingrPrice[action.ingrType]
+        totalPrice:state.totalPrice- state.ingrPrice[action.ingrType],
+        building:true
     });
 };
 

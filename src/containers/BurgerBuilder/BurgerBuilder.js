@@ -35,7 +35,16 @@ class BurgerBuilder extends Component{
     }
 
     purchasingHandler=()=>{
-        this.setState({purchasing:true});
+        if(this.props.isAuth){
+            this.setState({purchasing:true});
+        } else{
+            //set redirect path to checkout after authenticating
+            if(this.props.totalPrice>2){
+                this.props.setAuthRedirPath('/checkout');
+            };
+            this.props.history.push('/auth');
+        }
+        
     }
 
     cancelPurchaseHandler=()=>{
@@ -85,12 +94,13 @@ class BurgerBuilder extends Component{
                     <Burger ingredients={this.props.ingredients} />
 
                     <BuildControls 
-                    addIngrHandler={this.props.addIngredient}
-                    removeIngrHandler={this.props.removeIngredient}
-                    disabledInfo={disabledInfo}
-                    price={this.props.totalPrice}
-                    purchaseable={this.updatePurchaseable(this.props.ingredients)}
-                    showModal={this.purchasingHandler} />
+                        addIngrHandler={this.props.addIngredient}
+                        removeIngrHandler={this.props.removeIngredient}
+                        disabledInfo={disabledInfo}
+                        price={this.props.totalPrice}
+                        purchaseable={this.updatePurchaseable(this.props.ingredients)}
+                        showModal={this.purchasingHandler}
+                        isAuth={this.props.isAuth} />
 
                 </Fragment>
             );
@@ -118,7 +128,8 @@ const mapStateToProps = state =>{
     return {
         ingredients:state.bbr.ingredients,
         totalPrice:state.bbr.totalPrice,
-        error:state.bbr.error
+        error:state.bbr.error,
+        isAuth: state.ar.token!==null
     }
 };
 
@@ -127,7 +138,8 @@ const mapDispatchToProps=dispatch=>{
         getIngredients:()=>dispatch(actionCreator.getIngr()),
         addIngredient:(type)=> dispatch(actionCreator.addIngr(type)),
         removeIngredient:(type)=> dispatch(actionCreator.removeIngr(type)),
-        initPurchase:()=>dispatch(actionCreator.initPurchase())
+        initPurchase:()=>dispatch(actionCreator.initPurchase()),
+        setAuthRedirPath:(path)=>dispatch(actionCreator.setAuthRedirectPath(path))
     }
 
 };

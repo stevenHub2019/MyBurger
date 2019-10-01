@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './BuildControls.module.css';
 import BuildControl from './BuildControl/BuildControl';
 
+
 const controls=[
     { label:'Salad', type:'salad' },
     { label:'Cheese', type:'cheese' },
@@ -9,7 +10,27 @@ const controls=[
     { label:'Meat', type:'meat' },
 ];
 
+
+
 const buildControls = (props) => {
+
+    let btn=(
+        <button className={classes.OrderButton}
+                    onClick={props.showModal} >
+            SIGNIN TO ORDER NOW
+        </button>
+    );
+
+    if(props.isAuth){
+        btn=(
+            <button className={classes.OrderButton}
+                    disabled={!props.purchaseable}
+                    onClick={props.showModal} >
+            ORDER NOW
+            </button>
+        );
+    };
+
     return (
         <div className={classes.BuildControls}>
             <p> <strong> Current Price: $ {props.price.toFixed(2)} </strong></p>
@@ -24,9 +45,9 @@ const buildControls = (props) => {
                         />
                 })
             } 
-            <button className={classes.OrderButton}
-             disabled={!props.purchaseable}
-             onClick={props.showModal} >ORDER NOW</button>
+            
+           {btn}
+
         </div>
     )
 }
