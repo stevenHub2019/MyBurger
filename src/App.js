@@ -40,17 +40,10 @@ class App extends Component {
         );
       };
 
-    
-
     return (
-      <div>
-        
-        <Layout>
-          {route}
-        </Layout>    
-    
-          
-      </div>
+      <Layout>
+        {route}
+      </Layout>   
     );
   }
   

@@ -139,7 +139,8 @@ class ContactData extends Component {
         const order={
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,
-            orderData:formData
+            orderData:formData,
+            userId:this.props.userId
         };
         
         this.props.onOrderSubmit(order,this.props.token);
@@ -241,8 +242,8 @@ const mapStateToProps = (state) => ({
     ingredients:state.bbr.ingredients,
     totalPrice:state.bbr.totalPrice,
     loading:state.or.loading,
-    token:state.ar.token
-
+    token:state.ar.token,
+    userId:state.ar.userId
 });
 
 const mapDispatchToProps= dispatch =>{
@@ -250,9 +251,6 @@ const mapDispatchToProps= dispatch =>{
         onOrderSubmit: (orderData,token)=> dispatch(actionCreator.submitOrder(orderData,token))
     }
 }
-
-
-
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ContactData,axios));
