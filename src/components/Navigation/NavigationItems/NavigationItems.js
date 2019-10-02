@@ -8,11 +8,11 @@ const NavigationItems = (props) => {
     // pass exact as a props into NavigationItem component
     return (
         <ul className={classes.NavigationItems}>
-            <NavigationItem link='/' exact >Burger Builder </NavigationItem>
-            {props.isAuth?<NavigationItem link='/orders' > Orders </NavigationItem>:null}
+            <NavigationItem link='/' exact clicked={props.clicked}>Burger Builder </NavigationItem>
+            {props.isAuth?<NavigationItem link='/orders' clicked={props.clicked} > Orders </NavigationItem>:null}
             {!props.isAuth
-                ?<NavigationItem link='/auth' > Authenticate </NavigationItem>
-                :<NavigationItem link='/logout'> Logout </NavigationItem> }
+                ?<NavigationItem link='/auth' clicked={props.clicked} > Authenticate </NavigationItem>
+                :<NavigationItem link='/logout'clicked={props.clicked} > Logout </NavigationItem> }
             
         </ul>
     )

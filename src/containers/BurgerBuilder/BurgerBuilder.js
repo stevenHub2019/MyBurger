@@ -129,7 +129,7 @@ const mapStateToProps = state =>{
         ingredients:state.bbr.ingredients,
         totalPrice:state.bbr.totalPrice,
         error:state.bbr.error,
-        isAuth: state.ar.token!==null
+        isAuth: state.ar.token!==null,
     }
 };
 
