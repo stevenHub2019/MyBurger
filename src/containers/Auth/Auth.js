@@ -7,7 +7,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import {connect} from 'react-redux';
 import * as actionCreator from '../../store/actions/index';
 import { Redirect } from 'react-router-dom';
-
+import {checkValidity} from '../../utility/utility';
 
 class Auth extends Component{
     //state form
@@ -47,36 +47,7 @@ class Auth extends Component{
         isSignUp:true
     }   
 
-    checkValidity=(value, rules)=>{
-        let isValid=true;
-
-        //check if a rule exists in validation
-        if(rules.required){
-            isValid=value.trim() !=='' && isValid;
-        }
-
-        if(rules.minLength){
-            isValid=value.length>=rules.minLength && isValid;
-        }
-
-        if(rules.maxLength){
-            isValid=value.length<=rules.maxLength && isValid;
-        }
-
-        if(rules.isEmail){
-
-            const pattern = /^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)[\\.]([a-zA-Z]{2,9})$/;
-            isValid= pattern.test(value) && isValid;
-        }
-
-        if(rules.isAlphaNumeric){
-            const pattern=/^[a-z0-9]+$/i ;
-            isValid= pattern.test(value) && isValid;
-        }
-
-        return isValid;
-
-    }
+    
             
     inputChangedHandler=(event, id)=>{
         //clone orderFrom from the state
@@ -88,7 +59,7 @@ class Auth extends Component{
         updatedControlsElement.value=event.target.value;
         
         //update valid value
-        updatedControlsElement.valid=this.checkValidity(updatedControlsElement.value,updatedControlsElement.validationRules)
+        updatedControlsElement.valid=checkValidity(updatedControlsElement.value,updatedControlsElement.validationRules);
         
         //update isTouch
         updatedControlsElement.isTouch=true;

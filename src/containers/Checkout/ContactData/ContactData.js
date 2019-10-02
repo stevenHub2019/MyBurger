@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 import * as actionCreator from '../../../store/actions/index';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
+import {checkValidity} from '../../../utility/utility';
+
 class ContactData extends Component {
     state={
         orderForm:{
@@ -104,26 +106,6 @@ class ContactData extends Component {
         
     }
 
-    checkValidity=(value, rules)=>{
-        let isValid=true;
-
-        //check if a rule exisits in validation
-        if(rules.required){
-            isValid=value.trim() !=='' && isValid;
-        }
-
-        if(rules.minLength){
-            isValid=value.length>=rules.minLength && isValid;
-        }
-
-        if(rules.maxLength){
-            isValid=value.length<=rules.maxLength && isValid;
-        }
-
-        return isValid;
-
-    }
-
     // refactorize to redux dispatch
     orderHandler=(event)=>{
         event.preventDefault();//prevent sending request to reload the page;
@@ -157,7 +139,7 @@ class ContactData extends Component {
         updatedOrderFormElement.value=event.target.value;
         
         //update valid value
-        updatedOrderFormElement.valid=this.checkValidity(updatedOrderFormElement.value,updatedOrderFormElement.validationRules)
+        updatedOrderFormElement.valid=checkValidity(updatedOrderFormElement.value,updatedOrderFormElement.validationRules);
         
         //update isTouch
         updatedOrderFormElement.isTouch=true;
