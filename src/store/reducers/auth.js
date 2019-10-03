@@ -1,6 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import {updateObject} from '../utility/utility';
-
+import {updateObject} from '../../utility/utility';
 
 const initialState={
     token:null,
@@ -60,7 +59,6 @@ const reducer=(state=initialState, action)=>{
         case actionTypes.SET_AUTH_REDIRECT_PATH:return setAuthRedirectPath(state,action);
         default:return state;
     }
-
 }
 
 export default reducer;

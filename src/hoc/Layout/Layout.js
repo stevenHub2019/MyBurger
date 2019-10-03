@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 
 
 
-class Layout extends Component {
+export class Layout extends Component {
     state={showSideDrawer:false}
 
     closeSideDrawerHandler=()=>{

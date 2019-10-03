@@ -14,13 +14,13 @@ import * as actionCreator from '../../store/actions/index';
 
 
 //UI state shouldn't be managed by redux
-class BurgerBuilder extends Component{
+export class BurgerBuilder extends Component{
     state={
         purchasing:false
     }
 
     componentDidMount(){
-        console.log(this.props)
+        //console.log(this.props)
         this.props.getIngredients();
     }
 
